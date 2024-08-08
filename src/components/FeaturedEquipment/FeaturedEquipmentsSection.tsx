@@ -31,6 +31,34 @@ const featuredEquipments = [
     description: "High-quality treadmill for your cardio workouts.",
     price: "$799.99",
   },
+  {
+    name: "Treadmill",
+    image:
+      "https://shahsports.com.bd/wp-content/uploads/2022/06/reebok-a2-0-treadmill-silver-1-300x300.webp",
+    description: "High-quality treadmill for your cardio workouts.",
+    price: "$799.99",
+  },
+  {
+    name: "Dumbbells",
+    image:
+      "https://shahsports.com.bd/wp-content/uploads/2022/06/reebok-a2-0-treadmill-silver-1-300x300.webp",
+    description: "Set of adjustable dumbbells for strength training.",
+    price: "$199.99",
+  },
+  {
+    name: "Yoga Mat",
+    image:
+      "https://shahsports.com.bd/wp-content/uploads/2022/06/reebok-a2-0-treadmill-silver-1-300x300.webp",
+    description: "Comfortable yoga mat for all your stretching needs.",
+    price: "$29.99",
+  },
+  {
+    name: "Treadmill2 ",
+    image:
+      "https://shahsports.com.bd/wp-content/uploads/2022/06/reebok-a2-0-treadmill-silver-1-300x300.webp",
+    description: "High-quality treadmill for your cardio workouts.",
+    price: "$799.99",
+  },
 ];
 
 export default function FeaturedEquipmentsSection() {
@@ -49,6 +77,9 @@ export default function FeaturedEquipmentsSection() {
             price={equipment.price}
           />
         ))}
+
+
+        
       </div>
     </div>
   );

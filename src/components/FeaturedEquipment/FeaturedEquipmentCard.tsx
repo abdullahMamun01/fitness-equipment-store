@@ -24,6 +24,7 @@ export default function FeaturedEquipmentCard({
           <img
             className="rounded-t-lg object-cover transition-transform duration-700 transform group-hover:scale-125"
             src={image}
+            loading="lazy"
             alt=""
           />
         </div>
@@ -47,12 +48,15 @@ export default function FeaturedEquipmentCard({
         <p className="text-gray-300 text-sm my-2 text-[15px] leading-relaxed">
           {description}
         </p>
-        <span className="text-secondary font-semibold text-[18px]">
+        <span className="text-gray-300 line-through decoration-red-600 font-semibold text-[14px]">
+          {price}
+        </span>
+        <span className="text-secondary font-semibold text-[18px] ml-4">
           {price}
         </span>
       </div>
       <Button className="bg-secondary rounded-none text-primary w-full mt-0 hover:bg-secondary z-10">
-        Add to Cart <ShoppingBag className="ml-2" />
+      <ShoppingBag className="mr-2" /> Add To Cart 
       </Button>
     </Card>
   );
