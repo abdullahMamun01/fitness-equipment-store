@@ -15,7 +15,7 @@ function generateImage(id: string) {
 }
 
 export default function ImageGallery() {
-  const { data } = useProductsQuery();
+  const { data } = useProductsQuery(undefined);
   const breakpointColumnsObj = {
     default: 4,
     1100: 3,
