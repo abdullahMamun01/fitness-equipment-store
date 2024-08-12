@@ -14,7 +14,7 @@ export default function App() {
         <CategoriesSection />
         <FeaturedEquipmentsSection />
         <BenefitSection />
-        <ImageGallery/>
+        {/* <ImageGallery/> */}
     </>
   );
 }
