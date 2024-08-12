@@ -1,3 +1,4 @@
+import { createBrowserRouter } from "react-router-dom";
 import App from "@/App";
 import DashBoardLayout from "@/layout/DashBoardLayout";
 import RootLayout from "@/layout/RootLayout";
@@ -7,8 +8,6 @@ import Inventory from "@/pages/dashboard/Inventory";
 import ProductDetails from "@/pages/ProductDetails/ProductDetails";
 import Shop from "@/pages/shop/Shop";
 import ShopLayout from "@/pages/shop/ShopLayout";
-import path from "path";
-import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -16,40 +15,38 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       {
-        path: "",
+        index: true, // Use `index` instead of `path: ""` for the root route
         element: <App />,
       },
       {
-        path: "/product/:productId",
+        path: "product/:productId",
         element: <ProductDetails />,
       },
       {
-        path: "/cart",
+        path: "cart",
         element: <ShoppingCart />,
       },
       {
-        path: "/shop",
+        path: "shop",
         element: <ShopLayout />,
         children: [
           {
-            path: "",
+            index: true, // Use `index` for the default route within `shop`
             element: <Shop />,
           },
-        ]
-      }
-     
+        ],
+      },
     ],
-    
   },
   {
     path: "/admin/dashboard",
-    element: <DashBoardLayout/>,
+    element: <DashBoardLayout />,
     children: [
-        {
-            path: "inventory",
-            element: <Inventory/>,
-          }
-      ],
+      {
+        path: "inventory",
+        element: <Inventory />,
+      },
+    ],
   },
 ]);
 
