@@ -1,0 +1,26 @@
+/* MasonryGallery.css */
+
+.masonry-container {
+    max-height: 800px;
+    overflow: auto; /* Allows scrolling if content exceeds 800px height */
+  }
+  
+  .my-masonry-grid {
+    display: flex;
+    width: 100%;
+    margin-left: -30px; /* Adjust based on your column gap */
+    /* Define your column gap here */
+    padding-left: 30px;
+    box-sizing: border-box;
+  }
+  
+  .my-masonry-grid_column {
+    padding-left: 30px;
+    background-clip: padding-box;
+  }
+  
+  .masonry-image {
+    width: 100%;
+    margin-bottom: 20px; /* Adjust based on your row gap */
+  }
+  

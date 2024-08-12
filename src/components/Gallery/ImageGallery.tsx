@@ -1,28 +1,44 @@
-import React from "react";
+import imageUrlParser from "@/lib/imageUrlParser";
+import { useProductsQuery } from "@/redux/api/productsApi";
 
-const images = [
-  'https://picsum.photos/300/200?random=1',
-  'https://picsum.photos/300/300?random=2',
-  'https://picsum.photos/400/300?random=3',
-  'https://picsum.photos/200/300?random=4',
-  'https://picsum.photos/300/400?random=5',
-  'https://picsum.photos/300/300?random=6',
-  'https://picsum.photos/400/400?random=7',
-  'https://picsum.photos/300/200?random=8',
-  'https://picsum.photos/200/200?random=9',
-];
+import Masonry from "react-masonry-css";
+import './masonary.css'
+function generateImage(id: string) {
+  const img = new Image();
+  const url = imageUrlParser(id);
+  img.src = url;
+  return {
+    src: url,
+    width: img.width,
+    height: img.height,
+  };
+}
 
 export default function ImageGallery() {
+  const { data } = useProductsQuery();
+  const breakpointColumnsObj = {
+    default: 4,
+    1100: 3,
+    700: 2,
+    500: 5,
+  };
+ 
   return (
-    <div className="md:container mx-auto py-8">
-      <h1 className="text-primary text-3xl font-bold text-center mb-8">Image Gallery</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {images.map((src, index) => (
-          <div key={index} className="relative overflow-hidden rounded-lg">
-            <img src={src} alt={`Gallery image ${index + 1}`} className="w-full h-full object-cover transform transition-transform duration-300 ease-in-out hover:scale-110" />
-          </div>
+    <div className="masonry-container container py-2">
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column">
+        {data?.map((pd, index) => (
+          <img
+            key={index}
+            src={imageUrlParser(pd.img)}
+            alt={`Image ${index}`}
+            className="masonry-image border shadow-lg p-4"
+          />
         ))}
-      </div>
+        
+      </Masonry>
     </div>
   );
 }

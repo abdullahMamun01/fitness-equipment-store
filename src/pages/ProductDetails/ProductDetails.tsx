@@ -1,47 +1,45 @@
+import ProductDetailSkeleton from "@/components/common/skeleton/ProductDetailSkeleton";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import imageUrlParser from "@/lib/imageUrlParser";
+import { useSingleProductQuery } from "@/redux/api/productsApi";
 import { Heart, ShoppingBagIcon } from "lucide-react";
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import ProductImageViewer from "./ProductImageViewer";
 
 const ProductDetails = () => {
-  const [activeSlide, setActiveSlide] = useState(0);
-  const slideCount = 4; // Number of slides
-  const slides = [
-    "https://shahsports.com.bd/wp-content/uploads/2022/06/reebok-a2-0-treadmill-silver-1-300x300.webp",
-    "https://shahsports.com.bd/wp-content/uploads/2022/06/reebok-a2-0-treadmill-silver-1-300x300.webp",
-  ];
+  const { productId } = useParams();
+  const { data, isLoading } = useSingleProductQuery(productId as string);
+  if (isLoading) {
+    return <ProductDetailSkeleton />;
+  }
 
   return (
     <section className="md:container pt-12 pb-24 bg-white overflow-hidden">
+      
       <div className="relative container px-4 mx-auto">
         <div className="flex flex-wrap -mx-4 mb-14 md:mb-24">
           <div className="w-full lg:w-1/2 px-4 mb-16 lg:mb-0">
-            <div className="relative w-full md:w-3/4 ml-auto mb-16">
-              <div className="w-full mx-auto overflow-hidden bg-gray-50 p-4 rounded-3xl">
-                <img
-                  className="h-full w-full object-contain"
-                  src="https://shahsports.com.bd/wp-content/uploads/2022/06/reebok-a2-0-treadmill-silver-1-300x300.webp"
-                />
-              </div>
+            <div className="relative w-full ml-auto mb-16">
+              {data && <ProductImageViewer images={data?.images} />}
             </div>
           </div>
           <div className="w-full lg:w-1/2 px-4">
             <h1 className="mb-4 text-primary text-2xl font-heading font-medium">
-              Apple iPhone 12 Pro (256GB) - Silver
+              {data?.name}
             </h1>
             <p className="flex items-start mb-8">
               <span className="flex items-center text-2xl text-secondary font-heading font-medium">
-                <span className="mr-2 text-xl">$</span>
-                <span>235.00</span>
+                <span className=" text-xl">$</span>
+                <span>{data?.price}</span>
               </span>
               <span className="ml-4 text-gray-300 font-heading font-medium line-through">
-                $244.90
+                ${data?.discountedPrice}
               </span>
             </p>
             <p className="mb-8 text-base leading-7 text-gray-500">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-              sit amet finibus orci, ac tempor velit. Nullam sagittis sem non
-              nisl tempor tincidunt. Nulla ullamcorper ante sit amet semper
-              sollicitudin.
+              {data?.description}
             </p>
             <div className="mb-8">
               <h4 className="mb-3 font-heading font-medium">Qty:</h4>
@@ -58,9 +56,8 @@ const ProductDetails = () => {
                 </label>
                 <div className="relative">
                   <select className="appearance-none block w-full px-4 py-3 text-sm leading-4 font-semibold text-gray-400 bg-white border border-gray-100 rounded-md">
-                    <option>Silver</option>
-                    <option>Gold</option>
-                    <option>Blue</option>
+                    <option>{data?.color}</option>
+                  
                   </select>
                   <svg
                     className="absolute top-1/2 transform -translate-y-1/2 right-3 pointer-events-none"
@@ -111,6 +108,7 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+
     </section>
   );
 };
