@@ -36,7 +36,7 @@ interface TProducts {
 
 export const productsApi = baseAPi.injectEndpoints({
     endpoints: (build) => ({
-        products: build.query<TProducts[], void>({
+        products: build.query<TProducts[], string |undefined>({
             query: () => {
                 return {
                     url: '/api/products',
