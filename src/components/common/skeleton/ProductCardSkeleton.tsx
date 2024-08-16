@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ProductCardSkeleton() {
   return (
-    <Card className="max-sm:mx-4 shadow-md group">
+    <Card className="shadow-md group">
       <div className="relative">
         {/* Image skeleton */}
         <div className="relative overflow-hidden rounded-lg shadow-lg flex justify-center bg-gray-200">
