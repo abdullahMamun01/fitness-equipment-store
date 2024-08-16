@@ -1,16 +1,17 @@
 import { useCategoriesQuery, useProductsQuery } from "@/redux/api/productsApi";
 import CategorySkeleton from "../common/skeleton/CategorySkeleton";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import useQueryParam from "@/hooks/useQueryParams";
 
 export default function CategoryFilter() {
+ 
   const { getParamValue, updateQueryParam, queryParams } = useQueryParam({
     paramName: "category",
   });
   const categories = (getParamValue() as string[]) || [];
   const location = useLocation()
-  console.log({location})
+
   const handleCategorySearchParams = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { name, checked } = event.target;

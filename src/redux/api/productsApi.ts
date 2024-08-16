@@ -24,29 +24,30 @@ interface TProducts {
     createdAt: string;
     updatedAt: string;
     dimensions: {
-      length: number;
-      width: number;
-      height: number;
+        length: number;
+        width: number;
+        height: number;
     };
-  }
-  
+}
 
 
 
 
-export const productsApi = baseAPi.injectEndpoints({
+
+ const productsApi = baseAPi.injectEndpoints({
     endpoints: (build) => ({
-        products: build.query<TProducts[], string |undefined>({
-            query: () => {
+        products: build.query<TProducts[], string | undefined>({
+            query: (query) => {
+                const url = query ? '/products' + query : '/products'
                 return {
-                    url: '/api/products',
+                    url,
                     method: "GET"
                 }
             },
             transformResponse: (response: { success: boolean; statusCode: number; data: TProducts[] }) => response.data,
 
         }),
-        singleProduct : build.query<TProducts, string>({
+        singleProduct: build.query<TProducts, string>({
             query: (productId: string) => {
 
                 return {
@@ -57,7 +58,7 @@ export const productsApi = baseAPi.injectEndpoints({
             transformResponse: (response: { success: boolean; statusCode: number; data: TProducts }) => response.data,
 
         }),
-        categories : build.query<TCategory[],void>({
+        categories: build.query<TCategory[], void>({
             query: () => {
 
                 return {
@@ -71,4 +72,4 @@ export const productsApi = baseAPi.injectEndpoints({
 });
 
 
-export const  {useProductsQuery,useSingleProductQuery, useCategoriesQuery} = productsApi
+export const { useProductsQuery, useSingleProductQuery, useCategoriesQuery } = productsApi

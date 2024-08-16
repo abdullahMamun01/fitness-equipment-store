@@ -1,13 +1,18 @@
-import CheckoutCart from "@/components/Checkout/CheckoutCart";
-import CheckoutItem from "@/components/Checkout/CheckoutItem";
-import React from "react";
+import CheckoutCart from "@/components/cart/CheckoutCart";
+import CheckoutItem from "@/components/cart/CartItem";
+import { useCart } from "@/redux/features/cart/cartSlice";
+import { useAppSelector } from "@/redux/hooks";
+
 
 export default function ShoppingCart() {
+  const cartItems= useAppSelector((state) =>useCart(state))
+
+
   return (
     <section className="md:container py-14 bg-gray-50">
       {/* product */}
-      <div className="grid grid-cols-12">
-        <div className="grid grid-cols-12 text-primary font-bold col-span-8">
+      <div className="grid md:grid-cols-12 grid-cols-1">
+        <div className="grid grid-cols-12 text-primary font-bold md:col-span-8">
           <div className="w-full py-4 px-6 border-b border-coolGray-200 col-span-5">
             <span className="text-rhino-800">Product</span>
           </div>
@@ -20,10 +25,10 @@ export default function ShoppingCart() {
           <div className="w-full py-4 px-6 border-b border-coolGray-200 col-span-2">
             <span className="text-rhino-800">Sub Totla</span>
           </div>
+            {
+              cartItems?.map(item => <CheckoutItem key={item.id} item={item}/>)
+            }
 
-          <CheckoutItem/>
-          <CheckoutItem/>
-          <CheckoutItem/>
 
 
           

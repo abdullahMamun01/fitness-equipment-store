@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 import {
   Control,
@@ -11,6 +12,7 @@ type ControlledInputProps = {
   name: string;
   label: string;
   placeholder?: string;
+  className?: string;
 };
 
 const ControlledInput: React.FC<ControlledInputProps> = ({
@@ -18,6 +20,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
   name,
   label,
   placeholder,
+  className = undefined,
 }) => {
   const {
     control,
@@ -33,10 +36,11 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
 
   return (
     <>
-      <label className="block text-gray-300 mb-4">{label}</label>
+      <label className="block mb-1.5 text-sm text-gray-900 font-semibold">
+        {label}
+      </label>
       <Controller
         name={name}
-    
         control={control}
         defaultValue="" // Ensure the input is controlled from the start
         render={({ field }) =>
@@ -45,7 +49,7 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
           ) : (
             <input
               type={inputType}
-              className={` "block py-4 px-3 w-full text-sm text-gray-400 tex-[5px] placeholder-gray-500 font-medium outline-none bg-transparent border border-gray-400 hover:border-white focus:border-gray-300 rounded-lg"`}
+              className={classNames(``, className)}
               placeholder={placeholder}
               {...field}
             />

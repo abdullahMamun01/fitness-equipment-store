@@ -1,10 +1,16 @@
 import ProductCardSkeleton from "@/components/common/skeleton/ProductCardSkeleton";
 import ProductCard from "@/components/FeaturedEquipment/ProductCard";
+import useQueryParam from "@/hooks/useQueryParams";
 import { useProductsQuery } from "@/redux/api/productsApi";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 
 
 export default function Shop() {
-  const { data, isLoading } = useProductsQuery(undefined);
+  const location = useLocation()
+  // const q = useParams()
+
+  const { data, isLoading } = useProductsQuery(location.search);
+
   if (isLoading) {
     return (
       <div className="grid grid-cols-12 gap-4 px-4">

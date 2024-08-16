@@ -5,7 +5,7 @@ import ProductCardSkeleton from "../common/skeleton/ProductCardSkeleton";
 
 export default function FeaturedEquipmentsSection() {
   const { data, isLoading, isError } = useProductsQuery(undefined);
-  console.log(data, 'data');
+  console.log(data, "data");
 
   return (
     <div className="md:container mx-auto py-14">
@@ -13,7 +13,7 @@ export default function FeaturedEquipmentsSection() {
         Featured Equipments
       </h1>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 overflow-hidden ">
+      <div className="grid grid-cols-2 gap-1 md:gap-4 md:grid-cols-3  lg:grid-cols-4 overflow-hidden px-4 md:px-0">
         {isLoading &&
           Array.from({ length: 10 }, (_, index) => (
             <ProductCardSkeleton key={index} />

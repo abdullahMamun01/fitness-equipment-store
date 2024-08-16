@@ -25,7 +25,7 @@ const useQueryParam = ({ paramName }: UseQueryParamOptions) => {
       } else {
         newParams.set(paramName, value);
       }
-      console.log(newParams.get('category'))
+
       // Navigate with the updated query params
       navigate({ search: newParams.toString() });
 
@@ -47,8 +47,7 @@ const useQueryParam = ({ paramName }: UseQueryParamOptions) => {
   return {
     queryParams,
     updateQueryParam,
-    getParamValue,
-    navigate
+    getParamValue
   };
 };
 
