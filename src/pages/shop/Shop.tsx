@@ -19,7 +19,7 @@ export default function Shop() {
             _,
             index // Render 10 skeletons
           ) => (
-            <div className="col-span-4" key={index}>
+            <div className="col-span-1 md:col-span-4" key={index}>
               <ProductCardSkeleton key={index} />
             </div>
           )
@@ -28,9 +28,9 @@ export default function Shop() {
     );
   }
   return (
-    <div className="grid grid-cols-12 gap-4 px-4">
+    <div className="grid grid-cols-2 md:grid-cols-12 gap-1 px-2 md:gap-4 md:px-4">
       {data?.map((product) => (
-        <div className="col-span-4" key={product._id}>
+        <div className="col-span-1 md:col-span-4" key={product._id}>
           <ProductCard
             key={product._id}
             id={product._id}

@@ -7,12 +7,17 @@ export const baseAPi = createApi({
   reducerPath: 'baseApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://fitness-equipment-backend-eta.vercel.app/api',
-    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`)
+    prepareHeaders: (headers, { getState ,endpoint}) => {
+      const auth = (getState() as RootState).auth
+      const user = auth.user?.role
+
+      if (auth.token) {
+        headers.set('authorization', `Bearer ${auth.token}`)
       }
 
+      if(endpoint === 'adminOnly' && user !== 'admin'){
+        throw new Error('Unauthorized');
+      }
 
       return headers
     }

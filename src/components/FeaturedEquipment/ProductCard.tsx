@@ -73,7 +73,7 @@ export default function ProductCard({
         <h1 className="text-gray-100 font-bold text-[13px] md:text-[20px] leading-tight">
           {name.slice(0, 20)}
         </h1>
-        <p className="text-gray-300 md:visible hidden text-sm my-2 text-[12px] md:text-[15px] leading-relaxed">
+        <p className="text-gray-300  max-sm:hidden  text-sm my-2  md:text-[15px] leading-relaxed">
           {description.slice(0, 50)}...
         </p>
         <span className="text-gray-300 line-through decoration-red-600 font-semibold text-[14px]">

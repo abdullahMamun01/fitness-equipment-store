@@ -1,17 +1,16 @@
 import { useCategoriesQuery, useProductsQuery } from "@/redux/api/productsApi";
 import CategorySkeleton from "../common/skeleton/CategorySkeleton";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { ChangeEvent, useCallback } from "react";
+
 import useQueryParam from "@/hooks/useQueryParams";
 
 export default function CategoryFilter() {
- 
   const { getParamValue, updateQueryParam, queryParams } = useQueryParam({
     paramName: "category",
   });
   const categories = (getParamValue() as string[]) || [];
-  const location = useLocation()
 
+  
   const handleCategorySearchParams = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { name, checked } = event.target;
@@ -19,14 +18,14 @@ export default function CategoryFilter() {
       const params = checked
         ? [...categories, name]
         : categories.filter((cg) => cg != name);
-        
+
       updateQueryParam(params);
     },
     [categories, queryParams]
   );
 
   const { data, isLoading } = useCategoriesQuery();
-
+  console.log(data)
   if (isLoading) {
     return Array.from({ length: 10 }).map(
       (
@@ -38,7 +37,7 @@ export default function CategoryFilter() {
 
   return (
     <div>
-      <h3 className="text-xl text-[#a2db25] mb-3 uppercase font-medium">
+      <h3 className="text-xl text-left text-[#a2db25] mb-3 uppercase font-medium">
         Categories
       </h3>
       <div className="space-y-2">
@@ -55,7 +54,7 @@ export default function CategoryFilter() {
             />
             <label
               htmlFor="cat-1"
-              className="text-gray-600 ml-3 cusror-pointer">
+              className="text-gray-600 ml-3 cursor-pointer">
               {category.categoryName}
             </label>
             <div className="ml-auto text-gray-600 text-sm">
