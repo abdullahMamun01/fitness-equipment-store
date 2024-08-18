@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import Logo from '../../assets/Logo-removebg-preview.png'
+import Logo from "../../assets/Logo-removebg-preview.png";
 import { Link } from "react-router-dom";
+import ProfileModal from "../user/ProfileModal";
+import { useAppSelector } from "@/redux/hooks";
+import { useToken } from "@/redux/features/auth/authSLice";
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
   const [isFirstDropdownOpen, setIsFirstDropdownOpen] =
@@ -11,8 +14,7 @@ const Navbar = () => {
   const toggleNav = (): void => setIsNavOpen(!isNavOpen);
   const toggleFirstDropdown = (): void =>
     setIsFirstDropdownOpen(!isFirstDropdownOpen);
-  const toggleSecondDropdown = (): void =>
-    setIsSecondDropdownOpen(!isSecondDropdownOpen);
+  const token = useAppSelector((state) => useToken(state));
 
   return (
     <nav className="md:container flex-no-wrap relative flex w-full items-center  justify-between bg-primary text-gray-100 shadow-dark-mild dark:bg-neutral-700 lg:flex-wrap lg:justify-start lg:py-4">
@@ -38,7 +40,7 @@ const Navbar = () => {
           </span>
         </button>
         <div className="">
-         <img src={Logo} alt="" className="w-[100] h-[50px]" />
+          <img src={Logo} alt="" className="w-[100] h-[50px]" />
         </div>
         <div
           className={`!visible ${
@@ -79,7 +81,6 @@ const Navbar = () => {
 
         <div className="relative flex items-center">
           <Link className="me-4 text-neutral-600 dark:text-white" to="/cart">
-            
             <span className="[&>svg]:w-5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -116,80 +117,22 @@ const Navbar = () => {
                 1
               </span>
             </a>
-            <ul
-              className={`absolute z-[1000] float-left m-0 ${
-                isFirstDropdownOpen ? "block" : "hidden"
-              } min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-surface-dark`}
-              aria-labelledby="dropdownMenuButton1">
-              <li>
-                <a
-                  className="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-zinc-200/60 focus:bg-zinc-200/60 focus:outline-none active:bg-zinc-200/60 dark:bg-surface-dark dark:text-white dark:hover:bg-neutral-800/25 dark:focus:bg-neutral-800/25 dark:active:bg-neutral-800/25"
-                  href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a
-                  className="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-zinc-200/60 focus:bg-zinc-200/60 focus:outline-none active:bg-zinc-200/60 dark:bg-surface-dark dark:text-white dark:hover:bg-neutral-800/25 dark:focus:bg-neutral-800/25 dark:active:bg-neutral-800/25"
-                  href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a
-                  className="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-zinc-200/60 focus:bg-zinc-200/60 focus:outline-none active:bg-zinc-200/60 dark:bg-surface-dark dark:text-white dark:hover:bg-neutral-800/25 dark:focus:bg-neutral-800/25 dark:active:bg-neutral-800/25"
-                  href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
           </div>
 
-          <div
-            className="relative py-4"
-            onMouseEnter={toggleSecondDropdown}
-            onMouseLeave={toggleSecondDropdown}>
-            <a
-              className="flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none"
-              href="#"
-              id="dropdownMenuButton2"
-              role="button"
-              aria-expanded={isSecondDropdownOpen}>
-              <img
-                src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg"
-                className="rounded-full"
-                style={{ height: "25px", width: "25px" }}
-                alt=""
-                loading="lazy"
-              />
-            </a>
-            <ul
-              className={`absolute z-[1000] float-left m-0  ${
-                isSecondDropdownOpen ? "block " : "hidden "
-              } min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-surface-dark`}
-              aria-labelledby="dropdownMenuButton2">
-              <li>
-                <a
-                  className="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-zinc-200/60 focus:bg-zinc-200/60 focus:outline-none active:bg-zinc-200/60 dark:bg-surface-dark dark:text-white dark:hover:bg-neutral-800/25 dark:focus:bg-neutral-800/25 dark:active:bg-neutral-800/25"
-                  href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a
-                  className="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-zinc-200/60 focus:bg-zinc-200/60 focus:outline-none active:bg-zinc-200/60 dark:bg-surface-dark dark:text-white dark:hover:bg-neutral-800/25 dark:focus:bg-neutral-800/25 dark:active:bg-neutral-800/25"
-                  href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a
-                  className="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-zinc-200/60 focus:bg-zinc-200/60 focus:outline-none active:bg-zinc-200/60 dark:bg-surface-dark dark:text-white dark:hover:bg-neutral-800/25 dark:focus:bg-neutral-800/25 dark:active:bg-neutral-800/25"
-                  href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
+          <div className="relative py-4">
+            {token && (
+              <ProfileModal>
+                <span className="flex items-center whitespace-nowrap transition duration-150 ease-in-out motion-reduce:transition-none">
+                  <img
+                    src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg"
+                    className="rounded-full"
+                    style={{ height: "25px", width: "25px" }}
+                    alt=""
+                    loading="lazy"
+                  />
+                </span>
+              </ProfileModal>
+            )}
           </div>
         </div>
       </div>

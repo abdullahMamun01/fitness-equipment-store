@@ -1,9 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import {
-  Control,
   Controller,
-  FieldValue,
   useFormContext,
 } from "react-hook-form";
 
@@ -13,6 +11,7 @@ type ControlledInputProps = {
   label: string;
   placeholder?: string;
   className?: string;
+  labelColor?:string
 };
 
 const ControlledInput: React.FC<ControlledInputProps> = ({
@@ -21,6 +20,8 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
   label,
   placeholder,
   className = undefined,
+  labelColor
+
 }) => {
   const {
     control,
@@ -36,13 +37,13 @@ const ControlledInput: React.FC<ControlledInputProps> = ({
 
   return (
     <>
-      <label className="block mb-1.5 text-sm text-gray-900 font-semibold">
+      <label className={`block mb-1.5 text-sm ${labelColor ? labelColor : 'text-primary'}  font-semibold `}>
         {label}
       </label>
       <Controller
         name={name}
         control={control}
-        defaultValue="" // Ensure the input is controlled from the start
+        defaultValue="" 
         render={({ field }) =>
           inputType === "checkBox" ? (
             <input type="checkbox" className="" name={name} id="" />

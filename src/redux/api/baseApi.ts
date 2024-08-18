@@ -6,7 +6,7 @@ import { RootState } from '../store'
 export const baseAPi = createApi({
   reducerPath: 'baseApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://fitness-equipment-backend-eta.vercel.app/api',
+    baseUrl: 'https://fitness-equipment-backend-six.vercel.app/api',
     prepareHeaders: (headers, { getState ,endpoint}) => {
       const auth = (getState() as RootState).auth
       const user = auth.user?.role
@@ -15,7 +15,7 @@ export const baseAPi = createApi({
         headers.set('authorization', `Bearer ${auth.token}`)
       }
 
-      if(endpoint === 'adminOnly' && user !== 'admin'){
+      if(endpoint === 'admin' && user !== 'admin'){
         throw new Error('Unauthorized');
       }
 

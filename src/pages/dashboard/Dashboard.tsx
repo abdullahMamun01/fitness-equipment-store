@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   return (
-    <Sidebar className="bg-primary border-0">
+    <Sidebar className="bg-primary border-0 ">
       <div className="text-gray-300 text-2xl font-bold bg-primary px-5 py-[24px]  ">
         <div className="sidebar-header">
           <div className="flex  gap-2">

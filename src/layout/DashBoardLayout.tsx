@@ -4,14 +4,14 @@ import { Outlet } from "react-router-dom";
 
 export default function DashBoardLayout() {
   return (
-    <div className="flex gap-0 bg-[#101010]">
-      <div>
-        <Dashboard />
-      </div>
-      <div className="w-full">
-        <DashboardNav />
-        <Outlet />
-      </div>
+    <div className="flex bg-[#101010]">
+    <div className="fixed w-64 h-full ">
+      <Dashboard />
     </div>
+    <div className="ml-64 w-full">
+      <DashboardNav />
+      <Outlet />
+    </div>
+  </div>
   );
 }

@@ -3,8 +3,7 @@ import InventoryModal from "@/components/Form/InventoryModal";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
 import { Plus } from "lucide-react";
-import React from "react";
-import Inventory from "./Inventory";
+
 import InventoryList from "./InventoryList";
 
 export default function ProductInventory() {
@@ -21,7 +20,7 @@ export default function ProductInventory() {
           <DialogTrigger asChild>
             <Button className="bg-secondary hover:bg-secondary text-primary px-8 py-6 text-semibold">
               {" "}
-              <Plus className="mr-2" /> Add Product
+              <Plus className="mr-2" /> Add product
             </Button>
           </DialogTrigger>
           <InventoryModal />
