@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from "react";
 import { Button } from "../ui/button";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, X } from "lucide-react";
 import { useAppDispatch } from "@/redux/hooks";
-import { updateQuantity } from "@/redux/features/cart/cartSlice";
+import { removeFromCart, updateQuantity } from "@/redux/features/cart/cartSlice";
 import imageUrlParser from "@/lib/imageUrlParser";
 import { Link } from "react-router-dom";
 
@@ -22,6 +22,10 @@ export default function CheckoutItem({ item }: TCartProps) {
   const totalPrice = Math.floor(item.price * item.quantity);
   const [quantity, setQuantity] = useState(item.quantity || 0);
   const dispatch = useAppDispatch();
+  const handleRemoveCart = useCallback (() => {
+    dispatch(removeFromCart({id: item.id }))
+  } , [])
+
   const handleIncQuantity = useCallback(() => {
     setQuantity((prev) => {
       const update = prev + 1;
@@ -68,8 +72,9 @@ export default function CheckoutItem({ item }: TCartProps) {
           </Button>
         </div>
       </div>
-      <div className="flex items-center justify-center gap-4 col-span-2">
+      <div className="flex items-center justify-center gap-2 col-span-2">
         <span className="font-semibold  items-start"> ${totalPrice}</span>
+        <span className="m-0" onClick={handleRemoveCart}><X className="cursor-pointer text-red-500"/></span>
       </div>
     </>
   );

@@ -8,6 +8,7 @@ import { useCart } from "@/redux/features/cart/cartSlice";
 import imageUrlParser from "@/lib/imageUrlParser";
 import { useStripePaymentMutation } from "@/redux/api/paymentApi";
 import { toast } from "react-toastify";
+import { Spinner } from "../ui/spinner";
 
 const defaultValues: TBilling = {
   firstName: "",
@@ -30,7 +31,7 @@ export default function CheckoutForm() {
     img: imageUrlParser(pd.image),
   }));
 
-  const [payStipe] = useStripePaymentMutation();
+  const [payStipe , {isLoading}] = useStripePaymentMutation();
 
   //submit form
   const onSubmit = async (formData: TBilling) => {
@@ -147,9 +148,11 @@ export default function CheckoutForm() {
               Cancel
             </button>
             <Button
+            disabled={isLoading}
               type="submit"
               className="rounded-md px-6 py-3 w-full text-sm tracking-wide hover:bg-primary bg-primary  text-white">
-              Complete Purchase
+              {isLoading ? <span className="flex"><Spinner className="text-gray-100 mr-2" size="small" /> Please wait</span> : <span>Complete Purchase</span>}
+              
             </Button>
           </div>
         </div>

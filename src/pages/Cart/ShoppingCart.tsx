@@ -2,12 +2,17 @@ import CheckoutCart from "@/components/cart/CheckoutCart";
 import CheckoutItem from "@/components/cart/CartItem";
 import { useCart } from "@/redux/features/cart/cartSlice";
 import { useAppSelector } from "@/redux/hooks";
+import { ShoppingBag } from "lucide-react";
 
 
 export default function ShoppingCart() {
   const cartItems= useAppSelector((state) =>useCart(state))
 
-
+  if(cartItems.length === 0) {
+    return <div className="min-h-screen w-full flex justify-center items-center">
+      <h1 className="text-red-400 font-bold text-2xl flex gap-2"> <ShoppingBag/> Your Cart is Empty</h1>
+    </div>
+  }
   return (
     <section className="md:container py-14 bg-gray-50">
       {/* product */}
