@@ -8,10 +8,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { CircleArrowLeft } from "lucide-react";
+import { CircleArrowLeft, User } from "lucide-react";
 import { useAppDispatch } from "@/redux/hooks";
 import { logout } from "@/redux/features/auth/authSLice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type ProfileProps = {
   children: React.ReactNode;
@@ -19,10 +19,10 @@ type ProfileProps = {
 
 export default function ProfileModal({ children }: ProfileProps) {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/auth/login')
+    navigate("/auth/login");
   };
 
   return (
@@ -31,7 +31,10 @@ export default function ProfileModal({ children }: ProfileProps) {
       <DropdownMenuContent className="text-primary">
         <DropdownMenuLabel>Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>
+          <User className="mr-2 w-5 h-5 text-primary" />
+          <Link to="/dashboard/inventory">Profile</Link>
+        </DropdownMenuItem>
         <DropdownMenuItem>
           <button onClick={() => handleLogout()} className="flex">
             <CircleArrowLeft className="mr-2 w-5 h-5 text-red-500" /> Logout

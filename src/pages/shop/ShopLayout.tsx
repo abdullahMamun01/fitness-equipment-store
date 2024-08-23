@@ -1,3 +1,4 @@
+import Pagination from "@/components/common/Pagination";
 import Sidebar from "@/components/common/Sidebar";
 import React from "react";
 import { Outlet } from "react-router-dom";
@@ -10,6 +11,9 @@ export default function ShopLayout() {
       </div>
       <div className="col-span-1 md:col-span-3">
         <Outlet />
+        <div className="col-span-1 mt-10">
+          <Pagination />
+        </div>
       </div>
     </div>
   );

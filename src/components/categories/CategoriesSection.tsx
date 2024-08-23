@@ -6,6 +6,7 @@ import { useProductsQuery } from "@/redux/api/productsApi";
 
 export default function CategoriesSection() {
   const {data} = useProductsQuery(undefined)
+  // const {} = useCategoriesQuery()
 
   useEffect(() => {
     const apiKey = 'FPSX6a5e81dbafc64e1cb65a098c8fef1ef2'
@@ -36,7 +37,7 @@ export default function CategoriesSection() {
       {data?.map((category) => (
         <CategoryCard
           key={category._id}
-          categoryName={category.name}
+          categoryName={category.category}
           imageUrl={category.images[2]}
         />
       ))}

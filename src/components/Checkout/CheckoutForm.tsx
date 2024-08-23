@@ -29,13 +29,13 @@ export default function CheckoutForm() {
     ...pd,
     img: imageUrlParser(pd.image),
   }));
-  // console.log(products)
+
   const [payStipe] = useStripePaymentMutation();
 
   //submit form
   const onSubmit = async (formData: TBilling) => {
     try {
-      console.log(products);
+
       const payment = await payStipe({ billingDetails: formData, products }).unwrap();
       const sessionUrl = payment.sessionUrl as string;
       window.location.href = sessionUrl;

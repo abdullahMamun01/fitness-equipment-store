@@ -5,7 +5,7 @@ import ProductCardSkeleton from "../common/skeleton/ProductCardSkeleton";
 
 export default function FeaturedEquipmentsSection() {
   const { data, isLoading, isError } = useProductsQuery(undefined);
-  console.log(data, "data");
+
 
   return (
     <div className="md:container mx-auto py-14">

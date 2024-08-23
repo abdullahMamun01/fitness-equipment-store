@@ -1,10 +1,15 @@
 import { useCart } from "@/redux/features/cart/cartSlice";
 import { useAppSelector } from "@/redux/hooks";
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 export default function CheckoutCart() {
-  const cartItem= useAppSelector((state) =>useCart(state))
-  const subTotal = cartItem.reduce((acc, cart) => acc + Math.floor(cart.quantity * cart.price) , 0)
+  const cartItem = useAppSelector((state) => useCart(state));
+  const location = useLocation();
+  const subTotal = cartItem.reduce(
+    (acc, cart) => acc + Math.floor(cart.quantity * cart.price),
+    0
+  );
   return (
     <div className="w-full  px-4 text-primary">
       <div className="bg-white rounded-xl shadow-md p-6">
@@ -28,11 +33,13 @@ export default function CheckoutCart() {
           <h2 className="text-rhino-700 font-semibold text-lg">Order Total</h2>
           <h2 className="text-rhino-700 font-semibold text-lg">$ {subTotal}</h2>
         </div>
-        <a
-          className="bg-secondary text-primary py-3 px-4 rounded-sm  text-center hover:bg-primary hover:text-secondary transition duration-200 w-full inline-block"
-          href="#">
-          Go to Checkout
-        </a>
+        {location.pathname === "/cart" && (
+          <Link
+            className="bg-secondary text-primary py-3 px-4 rounded-sm  text-center hover:bg-primary hover:text-secondary transition duration-200 w-full inline-block"
+            to="/checkout">
+            Go to Checkout
+          </Link>
+        )}
       </div>
     </div>
   );

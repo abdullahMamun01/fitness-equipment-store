@@ -25,7 +25,7 @@ export default function CategoryFilter() {
   );
 
   const { data, isLoading } = useCategoriesQuery();
-  console.log(data)
+
   if (isLoading) {
     return Array.from({ length: 10 }).map(
       (
@@ -37,7 +37,7 @@ export default function CategoryFilter() {
 
   return (
     <div>
-      <h3 className="text-xl text-left text-[#a2db25] mb-3 uppercase font-medium">
+      <h3 className="text-xl text-left text-primary font-bold mb-3 uppercase ">
         Categories
       </h3>
       <div className="space-y-2">

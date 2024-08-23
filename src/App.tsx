@@ -4,7 +4,8 @@ import CategoriesSection from "./components/categories/CategoriesSection";
 import FeaturedEquipmentsSection from "./components/FeaturedEquipment/FeaturedEquipmentsSection";
 import BenefitSection from "./components/BenefitSection";
 import Footer from "./components/common/Footer";
-import ImageGallery from "./components/Gallery/ImageGallery";
+import ReviewGallery from "./components/Gallery/ReviewGallery";
+
 
 export default function App() {
   return (
@@ -14,7 +15,7 @@ export default function App() {
         <CategoriesSection />
         <FeaturedEquipmentsSection />
         <BenefitSection />
-        {/* <ImageGallery/> */}
+        <ReviewGallery/>
     </>
   );
 }

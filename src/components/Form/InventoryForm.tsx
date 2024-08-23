@@ -1,50 +1,105 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ControlledInput from "./ControlledInput";
 import { FormProvider, useForm } from "react-hook-form";
 
-interface Product {
-  name: string;
-  description: string;
-  category: string;
-  price: number;
-  stockQuantity: number;
-  sku: string;
-  brand: string;
+import { zodResolver } from "@hookform/resolvers/zod";
+import { productSchema } from "@/zod/productSchmea";
+import ImageUpload from "./ImageUpload";
+import { toast } from "react-toastify";
+import { useAddProductMutation, useSingleProductQuery, useUpdateProductMutation } from "@/redux/api/productsApi";
+import { Spinner } from "../ui/spinner";
+import { IProductMutate } from "@/redux/types";
+import { useAppSelector } from "@/redux/hooks";
+import { closeEditItem, selectEditItem } from "@/redux/features/edit/editProductSLice";
+import { useDispatch } from "react-redux";
 
-  color: string;
-  tags: string;
-  availability: boolean;
-  discount: number;
-}
-const defaultValue = {
-  name: "",
-  description: "",
-  category: "",
-  price: 0,
-  stockQuantity: 0,
-  sku: "",
-  brand: "",
-  color: "",
-  tags: "",
-  availability: false,
-  image:'' ,
-  discount: 0,
+type TInventoryProps = {
+  onClose: () => void;
 };
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "../ui/button";
-import { productSchema } from "@/zod/productSchmea";
-import FileUpload from "./ImageUpload";
-import ImageUpload from "./ImageUpload";
-const InventoryForm: React.FC = () => {
-  const form = useForm<Product>({
-    defaultValues: defaultValue,
+const InventoryForm = ({ onClose }: TInventoryProps) => {
+  const selectedId  = useAppSelector(state => selectEditItem(state))
+  const {data ,isLoading : loading ,isSuccess ,status} = useSingleProductQuery(selectedId as string)
+  const dispatch = useDispatch()
+  const form = useForm<any>({
     resolver: zodResolver(productSchema),
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const {reset} = form
+
+  const [addProduct, { isLoading }] =
+    useAddProductMutation();
+  const [updateProduct] = useUpdateProductMutation()
+  const onSubmit = async (formData: IProductMutate) => {
+    formData.stockStatus = "inStock";
+    if(selectedId){
+    
+      await handleUpdateProduct(formData)
+    }else{
+      await handleAddProduct(formData)
+
+    }
+   
   };
+
+  const handleAddProduct = async (formData :IProductMutate) => {
+   
+    try {
+      const response = await addProduct(formData).unwrap();
+      toast("product add successfully", { position: "top-right" });
+      onClose()
+    } catch (error) {
+      if (error && typeof error === "object" && "data" in error) {
+        const err = error as { data: { message: string } };
+
+        toast.error(err.data.message || "An unexpected error occurred", {
+          position: "top-right",
+        });
+      } else {
+        toast.error("An unexpected error occurred", { position: "top-right" });
+      }
+    }
+  }
+
+  const handleUpdateProduct = async (formData:IProductMutate) => {
+    const productId = selectedId as string
+    try {
+      const response = await updateProduct({productId, data:formData}).unwrap();
+      toast("product update successfully", { position: "top-right" });
+
+      dispatch(closeEditItem())
+      onClose()
+    } catch (error) {
+      if (error && typeof error === "object" && "data" in error) {
+        const err = error as { data: { message: string } };
+
+        toast.error(err.data.message || "An unexpected error occurred", {
+          position: "top-right",
+        });
+      } else {
+        toast.error("An unexpected error occurred", { position: "top-right" });
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      reset({
+        name: data.name || '',
+        description: data.description || '',
+        category: data.category || '',
+        price: data.price.toString() || '',
+        stock: data.stock.toString() || '',
+        sku: data.sku  || '',
+        brand: data.brand || '',
+        tags: data.tags.toString() || '',
+        stockStatus: data.stockStatus || 'outOfStock',
+        discountedPrice: data.discountedPrice.toString()  || '',
+        img: data.img || '',
+        images: data.images || [],
+      });
+    }
+  }, [isSuccess, data, reset]);
 
   return (
     <FormProvider {...form}>
@@ -72,7 +127,7 @@ const InventoryForm: React.FC = () => {
           />
         </div>
         <div className="mb-4 col-span-2">
-          <ImageUpload/>
+          <ImageUpload />
         </div>
         <div className="mb-4 col-span-1">
           <ControlledInput
@@ -100,7 +155,7 @@ const InventoryForm: React.FC = () => {
           <ControlledInput
             className="w-full py-3 px-4 text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg"
             label="Stock Quantity"
-            name="stockQuantity"
+            name="stock"
             inputType="string"
             labelColor="text-gray-400"
             placeholder="Enter your product description"
@@ -141,26 +196,32 @@ const InventoryForm: React.FC = () => {
           <ControlledInput
             className="w-full py-3 px-4 text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg"
             label="Availability"
-            name="availability"
+            name="stockStatus"
             labelColor="text-gray-400"
-            inputType="checkbox"
+            inputType="text"
           />
         </div>
         <div className="mb-4 col-span-1">
           <ControlledInput
             className="w-full py-3 px-4 text-sm text-gray-900 placeholder-gray-400 border border-gray-200 focus:border-purple-500 focus:outline-purple rounded-lg"
             label="Discount Price"
-            name="discountPrice"
+            name="discountedPrice"
             inputType="string"
             labelColor="text-gray-400"
             placeholder="Enter your product discount price"
           />
         </div>
         {/* Add more fields as needed */}
+
         <button
           type="submit"
+      
           className="w-full py-2 px-4 col-span-2 bg-secondary text-primary rounded-md focus:outline-none ">
-          Add Product
+          {isLoading ? (
+            <Spinner size="small" className="text-primary" />
+          ) : (
+            <span>{selectedId ? 'Update Product' : 'Add Product'}</span>
+          )}
         </button>
       </form>
     </FormProvider>

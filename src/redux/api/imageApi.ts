@@ -3,12 +3,10 @@
 import { baseAPi } from "./baseApi";
 
 
-interface TImageResponse {
-    images : string [] | string
-}
+
   const imageApi = baseAPi.injectEndpoints({
     endpoints: (build) => ({
-        imageUpload: build.mutation<TImageResponse, FormData>({
+        imageUpload: build.mutation<string[], FormData>({
             query: (imageFile) => {
                 return {
                     url: '/image/upload',
@@ -16,9 +14,14 @@ interface TImageResponse {
                     body: imageFile,
                     endpoint: "admin"
                 }
-            }
+            },
+            transformResponse: (response: {
+                success: boolean;
+                statusCode: number;
+                data: string[];
+              }) => response.data,
         }),
-
+        
     }),
 });
 

@@ -1,3 +1,5 @@
+import NotFound from "@/components/error/NotFound";
+import ProductInventory from "@/dashboard/inventory/ProductInventory";
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 const App = React.lazy(() => import('@/App'));
@@ -69,15 +71,19 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/admin/dashboard",
+    path: "/dashboard",
     element: <DashBoardLayout />,
     children: [
       {
         path: "inventory",
-        element: <Inventory />,
+        element: <ProductInventory />,
       },
     ],
   },
+  {
+    path: '*', // This catches all unmatched routes
+    element: <NotFound />,
+},
 ]);
 
 export default router;

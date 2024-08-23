@@ -36,7 +36,7 @@ const useQueryParam = ({ paramName }: UseQueryParamOptions) => {
   // Sync queryParams state with URL changes
   useEffect(() => {
     setQueryParams(new URLSearchParams(location.search));
-  }, []);
+  }, [location.search]);
 
   // Retrieve a single parameter value
   const getParamValue = () => {

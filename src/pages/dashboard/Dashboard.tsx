@@ -33,7 +33,7 @@ export default function Dashboard() {
           <SubMenu label="Inventory" className="text-gray-300" icon={<LayoutList className="mr-2 hover:bg-primary" />}>
             <MenuItem
               className="bg:primary"
-              component={<Link to="/admin/dashboard/inventory" />}>
+              component={<Link to="/dashboard/inventory" />}>
               <div className="flex gap-2">
                 <LayoutList className="mr-2" /> Product
               </div>

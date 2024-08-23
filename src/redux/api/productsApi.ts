@@ -1,4 +1,5 @@
-import { TCategory } from "../types";
+
+import { IProductMutate, TCategory } from "../types";
 import { baseAPi } from "./baseApi";
 
 interface TProduct {
@@ -29,6 +30,11 @@ interface TProduct {
   };
 }
 
+type updateProduct = {
+  productId:string ,
+  data: Partial<TProduct>
+}
+
 const productsApi = baseAPi.injectEndpoints({
   endpoints: (build) => ({
     products: build.query<TProduct[], string | undefined>({
@@ -38,20 +44,32 @@ const productsApi = baseAPi.injectEndpoints({
           url,
           method: "GET",
         };
+        
       },
+      providesTags: ["Products"],
       transformResponse: (response: {
         success: boolean;
         statusCode: number;
         data: TProduct[];
       }) => response.data,
-    }),
+      
+    },
+    
+  
+  
+  ),
+
+    //get single product
     singleProduct: build.query<TProduct, string>({
       query: (productId: string) => {
         return {
-          url: `/api/products/${productId}`,
+          url: `/products/${productId}`,
           method: "GET",
+          
         };
       },
+      
+
       transformResponse: (response: {
         success: boolean;
         statusCode: number;
@@ -59,15 +77,16 @@ const productsApi = baseAPi.injectEndpoints({
       }) => response.data,
     }),
     //add single product
-    addProduct: build.mutation<TProduct, TProduct>({
+    addProduct: build.mutation<TProduct, IProductMutate>({
       query: (payload) => {
         return {
-          url: `/api/products`,
+          url: `/products`,
           method: "POST",
           body: payload,
           endpoint: "admin",
         };
       },
+      invalidatesTags: ['Products'],
       transformResponse: (response: {
         success: boolean;
         statusCode: number;
@@ -76,15 +95,17 @@ const productsApi = baseAPi.injectEndpoints({
     }),
 
     //update single product
-    updateProduct: build.mutation<TProduct, Partial<TProduct>>({
+    updateProduct: build.mutation<TProduct, updateProduct >({
       query: (payload) => {
         return {
-          url: `/api/products`,
+          url: `/products/${payload.productId}`,
           method: "PATCH",
-          body: payload,
+          body: payload.data,
           endpoint: "admin",
         };
       },
+      invalidatesTags: ['Products'],
+
       transformResponse: (response: {
         success: boolean;
         statusCode: number;
@@ -93,19 +114,16 @@ const productsApi = baseAPi.injectEndpoints({
     }),
 
     //delete single product
-    deleteProduct: build.mutation<TProduct, string>({
+    deleteProduct: build.mutation<void, string>({
       query: (productId) => {
         return {
-          url: `/api/products/${productId}`,
-          method: "PATCH",
+          url: `/products/${productId}`,
+          method: "DELETE",
           endpoint: "admin",
         };
       },
-      transformResponse: (response: {
-        success: boolean;
-        statusCode: number;
-        data: TProduct;
-      }) => response.data,
+      invalidatesTags: ['Products'],
+     
     }),
 
     //category list
@@ -116,6 +134,7 @@ const productsApi = baseAPi.injectEndpoints({
           method: "GET",
         };
       },
+      
       transformResponse: (response: {
         success: boolean;
         statusCode: number;
@@ -123,6 +142,7 @@ const productsApi = baseAPi.injectEndpoints({
       }) => response.data,
     }),
   }),
+  
 });
 
 export const {

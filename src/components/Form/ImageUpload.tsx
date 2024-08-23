@@ -1,16 +1,18 @@
+import imageUrlParser from "@/lib/imageUrlParser";
 import { useImageUploadMutation } from "@/redux/api/imageApi";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const ImageUpload = () => {
-    const {control ,setValue, formState : {errors}} = useFormContext()
+    const {control ,setValue, formState : {errors},getValues} = useFormContext()
+
     const [imagePreview, setImagePreview] = useState<string | null>(null);
     const [imageUpload] = useImageUploadMutation()
 
     const handleImageChange = async (file: FileList | null) => {
-        
         if (file && file.length > 0) {
+        
           const formData = new FormData()
           formData.append('image' , file[0])
 
@@ -21,14 +23,14 @@ const ImageUpload = () => {
           reader.readAsDataURL(file[0]);
 
           try {
-            const response = await imageUpload(formData).unwrap()
+            const images = await imageUpload(formData).unwrap()
+            setValue('images' , images)
+            setValue('img' , images[0])
             toast.success('image upload successfully' , {position: 'top-right'})
           } catch (error) {
             const err = error as Error
             toast.error(err.message , {position: 'top-right'})
           }
-
-
 
         }
       };
@@ -40,6 +42,8 @@ const ImageUpload = () => {
         return null;
       };
 
+    const images : null | string[] = getValues('images')
+ 
   return (
     <Controller
       name="image"
@@ -51,7 +55,7 @@ const ImageUpload = () => {
           onDragOver={(e) => e.preventDefault()}
           onDrop={(e) => {
             e.preventDefault();
-            field.onChange(e.dataTransfer.files);
+  
             handleImageChange(e.dataTransfer.files);
           }}>
           <label
@@ -83,10 +87,11 @@ const ImageUpload = () => {
             type="file"
             id="imageUpload"
             accept="image/*"
-            name="image"
+
             multiple
+            {...field.onChange}
             onChange={(e) => {
-              field.onChange(e.target.files);
+
               handleImageChange(e.target.files);
             }}
             // {...field.onChange}
@@ -102,8 +107,18 @@ const ImageUpload = () => {
             </div>
           )}
 
-        {errors['image'] && (
-        <div className="text-red-600 pt-4">{getErrorMessage(errors['image'])}</div>
+            {
+              (images && !imagePreview) && <div className="mt-4">
+              <img
+                src={imageUrlParser(images[0])}
+                alt="Preview"
+                className="w-32 h-32 object-cover rounded-lg"
+              />
+            </div>
+            }
+
+        {errors['images'] && (
+        <div className="text-red-600 pt-4">{getErrorMessage(errors['images'])}</div>
       )}
         </div>
       )}

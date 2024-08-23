@@ -9,8 +9,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { SlidersHorizontal } from "lucide-react";
-import PriceFilterAction from "./PriceFilterAction";
-import CategoryFilter from "./CategoryFilter";
+
+import FilterMenu from "../common/FilterMenu";
 
 export default function Filter() {
   return (
@@ -24,9 +24,8 @@ export default function Filter() {
         <SheetContent side="left">
           <SheetHeader>
             <SheetTitle className="text-left">Filter Products</SheetTitle>
-            <SheetDescription>
-              <CategoryFilter />
-              <PriceFilterAction />
+            <SheetDescription className="flex-grow overflow-y-auto">
+              <FilterMenu/>
             </SheetDescription>
           </SheetHeader>
           <div className="grid gap-4 py-4"></div>

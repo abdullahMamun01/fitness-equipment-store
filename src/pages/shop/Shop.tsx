@@ -1,16 +1,14 @@
+import Pagination from "@/components/common/Pagination";
 import ProductCardSkeleton from "@/components/common/skeleton/ProductCardSkeleton";
 import ProductCard from "@/components/FeaturedEquipment/ProductCard";
-import useQueryParam from "@/hooks/useQueryParams";
 import { useProductsQuery } from "@/redux/api/productsApi";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
 
 export default function Shop() {
-  const location = useLocation()
-  // const q = useParams()
+  const location = useLocation();
 
   const { data, isLoading } = useProductsQuery(location.search);
-
+  
   if (isLoading) {
     return (
       <div className="grid grid-cols-12 gap-4 px-4">
@@ -28,20 +26,22 @@ export default function Shop() {
     );
   }
   return (
-    <div className="grid grid-cols-2 md:grid-cols-12 gap-1 px-2 md:gap-4 md:px-4">
-      {data?.map((product) => (
-        <div className="col-span-1 md:col-span-4" key={product._id}>
-          <ProductCard
-            key={product._id}
-            id={product._id}
-            name={product.name}
-            image={product.img}
-            description={product.description}
-            price={product.price}
-            discountPrice={product.discountedPrice}
-          />
-        </div>
-      ))}
+    <div className="grid grid-cols-2 md:grid-cols-12 gap-1 px-2 md:gap-2 md:px-4">
+     
+        {data?.map((product) => (
+          <div className="col-span-1 md:col-span-4" key={product._id}>
+            <ProductCard
+              key={product._id}
+              id={product._id}
+              name={product.name}
+              image={product.img}
+              description={product.description}
+              price={product.price}
+              discountPrice={product.discountedPrice}
+            />
+          </div>
+        ))}
+    
     </div>
   );
 }

@@ -3,10 +3,12 @@ import React, { useEffect, useRef } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Spinner } from "../ui/spinner";
+import { useAppDispatch } from "@/redux/hooks";
+import { clearCart } from "@/redux/features/cart/cartSlice";
 
 export default function PaymentSuccess() {
   const [params] = useSearchParams();
-  // console.log(params.get('session_id'), ' success')
+  const dispatch = useAppDispatch()
   const [processOrder, { isLoading }] = useConfirmStripeOrderMutation();
   const hasRunRef = useRef(false);
 
@@ -15,7 +17,7 @@ export default function PaymentSuccess() {
       const sessionId = params.get("session_id") as string;
       try {
         const order = await processOrder(sessionId).unwrap();
-    
+        dispatch(clearCart())
         toast.success(order.message, { position: "top-right" });
       } catch (error) {
         if (error && typeof error === "object" && "data" in error) {
@@ -25,7 +27,7 @@ export default function PaymentSuccess() {
             position: "top-right",
           });
         } else {
-          console.log(error)
+       
           toast.error("An unexpected error occurred", {
             position: "top-right",
           });

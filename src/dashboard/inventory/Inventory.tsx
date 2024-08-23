@@ -1,7 +1,11 @@
-import React from "react";
-import Image from "../../assets/StockCake-Gym Workout Session_1721046342.jpg";
-import { Delete, DeleteIcon, Edit, Trash } from "lucide-react";
+
+import { Edit, Trash } from "lucide-react";
 import imageUrlParser from "@/lib/imageUrlParser";
+import DeleteConfirmModal from "@/components/common/modal/DeleteConfirmModal";
+import EditModal from "@/components/common/modal/EditModal";
+import { useAppDispatch } from "@/redux/hooks";
+import { onEditItem } from "@/redux/features/edit/editProductSLice";
+import { useCallback } from "react";
 type InventoryProps = {
   name: string;
   price: number;
@@ -12,6 +16,18 @@ type InventoryProps = {
 
 export default function Inventory({ id, name, price, stock ,image}: InventoryProps) {
   const inStock = stock === 0 ? "stock out" : "in stock";
+
+  const productInfo = {
+    id ,
+    name
+  }
+
+const dispatch  = useAppDispatch()
+  const handleEdit = useCallback(() => {
+    
+    dispatch(onEditItem(id))
+  },[])
+
   return (
     <div className="grid grid-cols-12 text-secondary items-center gap-4 w-full py-2">
       <div className="flex  col-span-4 items-center gap-4">
@@ -24,10 +40,14 @@ export default function Inventory({ id, name, price, stock ,image}: InventoryPro
       <div className="col-span-4 justify-end ">
         <ul className="flex list-none gap-4 justify-end">
           <li>
-            <Edit className="text-secondary" />
+            <EditModal>
+                <Edit onClick={handleEdit} className="text-secondary cursor-pointer" />
+            </EditModal>
           </li>
           <li>
-            <Trash className="text-secondary" />
+          <DeleteConfirmModal productInfo={productInfo}>
+            <Trash className="text-secondary cursor-pointer" />
+            </DeleteConfirmModal>
           </li>
         </ul>
       </div>

@@ -4,6 +4,7 @@ import { Minus, Plus } from "lucide-react";
 import { useAppDispatch } from "@/redux/hooks";
 import { updateQuantity } from "@/redux/features/cart/cartSlice";
 import imageUrlParser from "@/lib/imageUrlParser";
+import { Link } from "react-router-dom";
 
 type TCartItem = {
   id: string;
@@ -41,7 +42,9 @@ export default function CheckoutItem({ item }: TCartProps) {
           <img className="object-contain " src={imageUrlParser(item.image)} alt="" />
         </div>
         <div className="">
-          <h2 className=" font-semibold text-sm md:text-lg">{item.name}</h2>
+          <h2 className=" font-semibold text-sm md:text-lg">
+            <Link  to={`/product/${item.id}`}>{item.name}</Link>
+          </h2>
           <p className="text-gray-600 font-thin mt-2 text-[11px] md:text-sm">{item.description}</p>
         </div>
       </div>
