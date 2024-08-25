@@ -7,9 +7,9 @@ import { useLocation } from "react-router-dom";
 export default function Shop() {
   const location = useLocation();
 
-  const { data, isLoading } = useProductsQuery(location.search);
+  const { data, isLoading ,isFetching} = useProductsQuery(location.search);
   
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <div className="grid grid-cols-12 gap-4 px-4">
         {Array.from({ length: 10 }).map(
