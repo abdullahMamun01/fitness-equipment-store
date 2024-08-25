@@ -7,7 +7,7 @@ import { Navigate, useLocation } from "react-router-dom";
 type TProtectedProps = {
   children: ReactNode;
 };
-const publicRoutes = ["/", "/product", "/shop" ,"/auth/login" ,"/auth/register"];
+const publicRoutes = ["/", "/product", "/products" ,"/auth/login" ,"/auth/register"];
 
 function isProtectedRoute(path: string) {
   if (publicRoutes.includes(path)) {
