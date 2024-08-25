@@ -53,9 +53,9 @@ const Navbar = () => {
             </li>
             <li className="flex">
               <Link
-                to="/shop"
+                to="/products"
                 className="text-gray-200 hover:text-white transition px-2">
-                Shop
+                Products
               </Link>
             </li>
             <li className="flex">

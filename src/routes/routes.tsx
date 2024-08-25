@@ -47,10 +47,6 @@ const router = createBrowserRouter([
         element: <ShoppingCart />,
       },
       {
-        path: "protected",
-        element: <div>this is protected route!</div>,
-      },
-      {
         path: "checkout",
         element: <Checkout />,
       },
@@ -59,7 +55,7 @@ const router = createBrowserRouter([
         element: <PaymentSuccess/>
       },
       {
-        path: "shop",
+        path: "products",
         element: <ShopLayout />,
         children: [
           {
