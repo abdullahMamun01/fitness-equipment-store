@@ -11,13 +11,13 @@ export default function Shop() {
   
   if (isLoading || isFetching) {
     return (
-      <div className="grid grid-cols-12 gap-4 px-4">
+      <div className="grid grid-cols-12 gap-1 md:gap-4 px-4">
         {Array.from({ length: 10 }).map(
           (
             _,
             index // Render 10 skeletons
           ) => (
-            <div className="col-span-1 md:col-span-4" key={index}>
+            <div className="col-span-6 md:col-span-4" key={index}>
               <ProductCardSkeleton key={index} />
             </div>
           )
